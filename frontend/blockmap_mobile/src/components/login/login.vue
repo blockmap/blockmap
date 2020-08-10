@@ -1,6 +1,5 @@
 <template>
   <div id="login"> <!-- 登录页面 -->
-    <img src="../../assets/register_otherx.png" alt="no resource" width="800" height="800"/>
     <div class="login_content"> <!-- 剩余的登录页面内容 -->
       <div class="logo">
         <label>blockMap</label>
@@ -98,7 +97,8 @@ export default {
 #login{ /*全局*/
   width: 100%; /*占满*/
   height: 100%;
-  background-color: #131722; /*背景颜色0c0c23*/;
+  background: url("../../assets/register_otherx.png") no-repeat center; /*设置背景图片*/
+  background-size: cover;
 }
 .login_content{ /*登陆页除导航栏外内容*/
   padding-left: 0.4rem; /*左内边距*/
@@ -121,13 +121,5 @@ label{ /*logo*/
 }
 .button:active{ /*按钮点击效果*/
   opacity: 0.5; /*透明度*/
-}
-img{
-  position: fixed; /*绝对定位*/
-  left: 50%; /*与下面的平移结合，使图片居中*/
-  transform:translate(-400px); /*图片宽度高度均为800px*/
-  -webkit-transform: translateX(-400px); /*兼容Safari*/
-  bottom: 0; /*与底部距离为0*/
-  opacity: 0.5; /*透明度0.5*/
 }
 </style>

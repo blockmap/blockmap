@@ -1,9 +1,9 @@
 1、上传时删除了所有依赖，因此需要先安装依赖：npm install
 2、使用到的第三方库：
 ol：openlayers
-vue-cesium：cesium简化封装
+vue-cesium：cesium简化封装（苹果系列产品出现问题，ipad和iphone，需要根据设备作其他动画）
 vue-i18n：国际化
-vue-ydui：手机端适配组件
+vue-ydui：手机端适配组件（有rem适配方案，最简单可自己设置实现）
 3、结构：
 /static/Cesium：Cesium的build文件夹中的内容，配合vue-cesium使用
 /src/assets：图片
@@ -11,8 +11,11 @@ vue-ydui：手机端适配组件
 /src/lang/zh.js：中文
 /src/lang/en.js：英文
 /src/data/province.js：获取省份信息，用于选项卡
+/src/method/device.js：改写于原始版的device.js，用于识别设备
+/src/method/flexible.js：手机适配方案
 /components：所有页面组件
-/components/goodmap.vue：地球动画页面
+/components/judge.vue：判断设备并跳转页面
+/components/goodmap/goodmap.vue：3d地球动画页面
 /components/about/about.vue：关于我们页面
 /components/did/did.vue：数字身份页面
 /components/home/home.vue：主页面
@@ -21,5 +24,6 @@ vue-ydui：手机端适配组件
 /components/register/register.vue：注册信息填写页面
 /components/report/report.vue：疫情信息上报页面
 /components/summary/summary.vue：风险等级总结页面
+/components/normalmap/normalmap.vue：普通地球动画页面
 4、疑难点：
 keep-alive：登录时采用页面刷新的方法重新加载地图，会出现地图空白的bug，其他页面需要设置height: 92vh; overflow: scroll;滚动

@@ -24,4 +24,9 @@ export default {
   padding: 0;
   margin: 0;
 }
+/*
+html{
+  font-size: 13.33vw;
+}
+*/
 </style>

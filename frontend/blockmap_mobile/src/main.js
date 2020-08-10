@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'vue-ydui/dist/ydui.flexible' // 适配手机屏幕，使用rem方案
+// import 'vue-ydui/dist/ydui.flexible' // 适配手机屏幕，使用rem方案（若出现错误可采用最简单的方式实现）
+import './method/flexible' // 改写的适配方案
 import YDUI from 'vue-ydui' // 导入vue-ydui库
 import 'vue-ydui/dist/ydui.rem.css' // 使用vue-ydui库必须引入，且选用适配为rem的组件
 import VueCesium from 'vue-cesium' // 导入vue-cesium库

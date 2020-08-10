@@ -25,7 +25,7 @@
           </yd-tab-panel>
         </yd-tab>
       </div>
-      <div class="content_second" style="margin-bottom: 0.3rem;">
+      <div class="content_second" style="padding-bottom: 0.3rem;">
         <yd-cell-group :title="$t('message.personnalinfor')"> <!-- 个人信息 -->
           <yd-cell-item>
             <span slot="left">{{$t("message.realname")}}：</span> <!-- 姓名： -->

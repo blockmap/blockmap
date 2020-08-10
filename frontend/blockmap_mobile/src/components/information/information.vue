@@ -5,7 +5,7 @@
     <yd-cell-group :title="$t('message.accountinfor')"> <!-- 账号信息 -->
       <yd-cell-item>
         <span slot="left">{{$t("message.portrait")}}</span> <!-- 头像 -->
-        <img src="../../assets/portrait_xiaoxin.jpg" alt="no resource" width="64" height="64" slot="right"/>
+        <img src="../../assets/girl_portrait.jpg" alt="no resource" width="64" height="64" slot="right"/>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">{{$t("message.username")}}</span> <!-- 用户名 -->
@@ -65,7 +65,7 @@
       <yd-button size="large" type="danger" shape="angle">{{$t("message.modifypassword")}}</yd-button>
     </div>
     <yd-popup v-model="showModify" position="bottom" height="100%" :close-on-masker="false"> <!-- 信息修改弹窗 -->
-      <div style="height: 100%; padding-top: 0.2rem; padding-left: 0.3rem; padding-right: 0.3rem; padding-bottom: 1rem; background-color: #f5f5f5">
+      <div class="modifypop">
         <yd-cell-group :title="$t('message.informodify')">
           <yd-cell-item>
             <span slot="left">{{$t("message.username")}}：</span> <!-- 用户名： -->
@@ -237,5 +237,11 @@ export default {
 .select{ /*选择框*/
   color: black; /*字体颜色*/
   margin-left: 0.3rem; /*左外边距*/
+}
+.modifypop{ /*修改信息弹窗*/
+  padding: 0.2rem 0.3rem 1rem; /*内边距*/
+  background-color: #f5f5f5; /*设置背景颜色*/
+  height: 92vh; /*高度*/
+  overflow: scroll; /*多余滚动*/
 }
 </style>

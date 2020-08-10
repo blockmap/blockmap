@@ -99,7 +99,7 @@ import Line from 'ol/geom/LineString' // 导入直线
 import XYZ from 'ol/source/XYZ' // XYZ瓦片源
 import {defaults} from 'ol/control' // 默认控件设置
 import firstportrait from '../../assets/nologin_portrait.png' // 用于本地图片引入（测试，网上图片资源不需要）
-import secondportrait from '../../assets/portrait_xiaoxin.jpg' // 用于本地图片引入（测试）
+import secondportrait from '../../assets/girl_portrait.jpg' // 用于本地图片引入（测试）
 export default {
   name: 'home',
   data () { // 属性（数据）
@@ -298,10 +298,10 @@ export default {
     addLinesFeature (coordinates) { // 画线函数（首尾相连）
       this.vectorSource.addFeature(this.createLineFeature(coordinates))
     },
-    setRootFontSize () { // 设置根元素字体大小，确定rem
-      let root = document.documentElement || document.body // 找root，html或者是body
-      root.style.fontSize = 13.33 + 'vw' // 这里需要解释一下，一般手机页面设计图宽为750px，也就是手机屏幕宽度，1px相当于0.13333vw，100px就是13.33vw，相当于1rem等于100px
-    },
+    // setRootFontSize () { // 设置根元素字体大小，确定rem
+    //   let root = document.documentElement || document.body // 找root，html或者是body
+    //   root.style.fontSize = 13.33 + 'vw' // 这里需要解释一下，一般手机页面设计图宽为750px，也就是手机屏幕宽度，1px相当于0.13333vw，100px就是13.33vw，相当于1rem等于100px
+    // },
     iconDo () { // 用于实现图层类型切换
       if (this.count === 2) {
         this.count = 0
@@ -357,6 +357,14 @@ export default {
     language (newVal, oldVal) { // 监听语言变化
       sessionStorage.setItem('locale', newVal) // 保存在session存储
       this.$i18n.locale = newVal
+      let isLogin = sessionStorage.getItem('login') || 'n'
+      if (isLogin === 'n') {
+        if (newVal === 'en') {
+          this.userName = 'Please Sign In'
+        } else {
+          this.userName = '请登录'
+        }
+      }
     }
   },
   beforeRouteEnter (to, from, next) { // 路由钩子之进入页面前调用
