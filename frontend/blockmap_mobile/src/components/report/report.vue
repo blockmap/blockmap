@@ -64,6 +64,9 @@
       <yd-cell-item>
         <yd-textarea slot="right" :placeholder="$t('message.pathpost')" v-model="pathPost"></yd-textarea>
       </yd-cell-item>
+      <yd-cell-item>
+        <yd-textarea slot="right" :placeholder="$t('message.description')" v-model="description"></yd-textarea>
+      </yd-cell-item>
     </yd-cell-group>
     <div style="padding-right: 0.3rem; padding-left: 0.3rem; padding-bottom: 0.3rem" slot="right">
       <yd-button size="large" bgcolor="#1E90FF" color="#FFF" @click.native="submitReport">{{$t("message.submit")}}</yd-button> <!-- 提交 -->
@@ -75,13 +78,16 @@
 </template>
 
 <script>
+import axios from 'axios' // 导入ajax库
+import Qs from 'qs' // 导入qs库用于编码
 export default {
   name: 'report',
   data () { // 数据
     return {
-      yourName: '卫晓欣', // 姓名
+      yourName: '', // 姓名
+      userName: '', // 用户名
       phoneNumber: '', // 手机号（可以添加验证）
-      mailBox: '0123456789@qq.com', // 邮箱（可以添加验证）
+      mailBox: '', // 邮箱（可以添加验证）
       sex: '', // 性别
       age: '', // 年龄
       province: '', // 省
@@ -90,27 +96,112 @@ export default {
       deaddress: '', // 详细地址
       bodyHealth: 'health', // 身体健康状况
       sickDate: '', // 确诊日期
-      pathPost: '' // 确诊前去过的地方
+      pathPost: '', // 确诊前去过的地方
+      description: '' // 备注
     }
+  },
+  mounted () { // 页面加载好后
+    this.loadInformation() // 加载信息
   },
   methods: { // 方法
     backToHome () { // 返回地图主页
       this.$router.push('/home')
     },
     submitReport () { // 信息上报
-      let badtip = ''
-      if (!this.$refs.age.valid) {
-        badtip += '年龄填写错误！'
+      if (this.age === '') {
+        this.showTips(this.$t('message.blank_error'), 'error')
+      } else {
+        let go = true
+        if (this.bodyHealth === 'sick') {
+          if (this.pathPost === '' || this.description === '') {
+            go = false
+            this.showTips(this.$t('message.blank_error'), 'error')
+          }
+        }
+        if (go) {
+          let badtip = ''
+          let haveerror = false
+          if (!this.$refs.age.valid) {
+            haveerror = true
+            badtip += this.$t('message.age_error')
+          }
+          if (haveerror) {
+            this.showTips(badtip, 'error')
+          } else {
+            this.$dialog.loading.open(this.$t('message.submitting'))
+            let id = sessionStorage.getItem('id')
+            let date = this.bodyHealth === 'sick' ? this.sickDate : 'null'
+            let pathpost = this.pathPost === '' ? 'null' : this.pathPost
+            let sickstatus = this.bodyHealth === 'health' ? 2 : (this.bodyHealth === 'sick' ? 0 : 1)
+            let descript = this.description === '' ? 'null' : this.description
+            let param = {
+              id: id,
+              username: this.userName,
+              gender: this.sex,
+              age: this.age,
+              email: this.mailBox,
+              phone: this.phoneNumber,
+              province: this.province,
+              city: this.city,
+              district: this.district,
+              detailAddress: this.deaddress,
+              pathPost: pathpost,
+              confirmDate: date,
+              status: sickstatus,
+              description: descript,
+              state: 'pending'
+            }
+            axios.post('api/blockMap/post', Qs.stringify(param)).then(
+              response => {
+                this.$dialog.loading.close()
+                // 是否上传成功
+                if (response.data.status === 'success') {
+                  this.showTips(this.$t('message.submitsuccess'), 'success')// 显示上传成功框
+                } else {
+                  this.showTips(this.$t('message.submitfail'), 'error') // 显示上传失败框
+                }
+              }
+            ).catch(
+              error => {
+                this.$dialog.loading.close()
+                console.log(error)
+                this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+              }
+            )
+          }
+        }
       }
-      this.showTips(badtip, 'error')
-      // this.showTips('提交成功', 'success')
     },
     showTips (tip, type) { // 显示提示信息（tip为提示内容，type为success、error、或没有图标）
-      this.$dialog.toast({ // 显示上传成功框（上传成功）
+      this.$dialog.toast({
         mes: tip,
         timeout: 1000,
         icon: type
       })
+    },
+    loadInformation () { // 加载信息
+      let id = sessionStorage.getItem('id')
+      let param = {
+        id: id
+      }
+      axios.post('api/blockMap/query', Qs.stringify(param)).then(
+        response => {
+          this.yourName = response.data.user.realname
+          this.phoneNumber = response.data.user.phone
+          this.city = response.data.user.city
+          this.sex = response.data.user.gender
+          this.mailBox = response.data.user.email
+          this.province = response.data.user.province
+          this.district = response.data.user.district
+          this.deaddress = response.data.user.address
+          this.userName = response.data.user.username
+        }
+      ).catch(
+        error => {
+          console.log(error)
+          this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+        }
+      )
     }
   },
   watch: { // 监听变化

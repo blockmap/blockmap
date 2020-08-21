@@ -9,6 +9,12 @@ export const message = {
   pleaseconformpass: '请再次输入密码',
   register: '注册',
   loginwithoutuser: '无状态登录',
+  loginsuccess: '登录成功',
+  loginfail: '用户名或密码错误',
+  loginnull: '用户名或密码不能为空',
+  networkerror: '网络错误',
+  registernull: '用户名或密码或确认密码不能为空',
+  passwordnotequal: '密码不一致',
   personnalinfor: '个人信息', // 主页面用到的
   nouser: '请登录',
   risksummary: '风险等级总结',
@@ -24,6 +30,7 @@ export const message = {
   avoidrisk: '避开疫情优先',
   shortest: '路径最短优先',
   pathquery: '查询路径',
+  loginuse: '该功能需要登录后使用',
   summarytitle: '今天的风险等级总结', // 疫情风险等级总结页面用到的
   basicinformation: '基本信息', // 疫情上报页用到的
   realname: '姓名',
@@ -49,6 +56,11 @@ export const message = {
   sick: '确诊',
   suspected: '疑似',
   submit: '提交',
+  age_error: '年龄填写错误！',
+  submitting: '正在提交',
+  submitsuccess: '提交成功',
+  submitfail: '提交失败',
+  description: '备注（说明）',
   selectportrait: '选择头像', // 注册信息填写页面用到的
   department: '部门',
   country: '国籍',
@@ -64,6 +76,12 @@ export const message = {
   cancel: '取消',
   sure: '确定',
   email_error: '电子邮件填写错误！', // 用于提示框的错误信息
+  cardnum_error: '身份证号填写错误！',
+  phonenum_error: '电话填写错误！',
+  blank_error: '请完善信息！信息中存在空白',
+  registering: '正在注册',
+  registersuccess: '注册成功',
+  registerfail: '注册失败',
   updateby: '更新于', // 数字身份页面用到的
   getdid: '点击获取数字身份码',
   version: '版本号', // 关于我们页面用到的
@@ -88,6 +106,8 @@ export const message = {
   modifypersonalinfor: '修改个人信息',
   informodify: '信息修改',
   modifypassword: '修改密码',
+  modifysuccess: '修改成功',
+  modifyfail: '修改失败',
   guangdong: '广东', // 省份数据
   beijing: '北京',
   tianjin: '天津',

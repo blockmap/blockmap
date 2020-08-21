@@ -14,7 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "ol": "^6.3.1",
+    "qs": "^6.9.4",
     "vue": "^2.5.2",
     "vue-cesium": "^2.1.4",
     "vue-i18n": "^8.20.0",

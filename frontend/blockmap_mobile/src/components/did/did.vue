@@ -32,12 +32,14 @@
 </template>
 
 <script>
+import axios from 'axios' // 导入ajax库
+import Qs from 'qs' // 导入参数转化库
 export default {
   name: 'did',
   data () { // 数据
     return {
-      trueName: '卫晓欣', // 姓名
-      date: '2020/7' // 日期
+      trueName: '', // 姓名
+      date: '2020/8' // 日期
     }
   },
   methods: { // 方法
@@ -47,7 +49,26 @@ export default {
     getDidCode () { // 获取DID码
       let button = document.getElementsByClassName('getdid')[0] // 取得获取did按钮
       button.style.display = 'none' // 按钮消失
+    },
+    loadInformation () {
+      let id = sessionStorage.getItem('id')
+      let param = {
+        id: id
+      }
+      axios.post('api/blockMap/query', Qs.stringify(param)).then(
+        response => {
+          this.trueName = response.data.user.realname
+        }
+      ).catch(
+        error => {
+          console.log(error)
+          this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+        }
+      )
     }
+  },
+  mounted () {
+    this.loadInformation()
   }
 }
 </script>

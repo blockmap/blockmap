@@ -58,9 +58,10 @@
             <span slot="left">{{$t("message.company")}}：</span> <!-- 所属公司 -->
             <yd-input slot="right" required v-model="company"></yd-input>
           </yd-cell-item>
-          <yd-cell-item>
+          <yd-cell-item arrow>
             <span slot="left">{{$t("message.department")}}：</span> <!-- 所属部门 -->
-            <yd-input slot="right" required v-model="department"></yd-input>
+            <select slot="right" v-model="department" class="select" id="departItem">
+            </select>
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">{{$t("message.province")}}：</span> <!-- 省： -->
@@ -89,6 +90,8 @@
 
 <script>
 import getAllProvince from '../../data/province' // 导入获取省份数据函数
+import axios from 'axios' // 导入ajax库
+import Qs from 'qs' // 导入qs库用于编码
 export default {
   name: 'register',
   data () { // 数据
@@ -102,7 +105,7 @@ export default {
       department: '', // 所属部门
       cardNumber: '', // 身份证号
       phoneNumber: '', // 手机号码
-      country: '',
+      country: '', // 国籍
       province: '', // 省
       city: '', // 市
       district: '', // 区
@@ -135,24 +138,108 @@ export default {
       })
     },
     registerSubmit () { // 注册信息提交
-      let badtip = ''
-      if (!this.$refs.email.valid) {
-        badtip += this.$t('message.email_error')
+      if (this.yourName === '' || this.sex === '' || this.mailBox === '' || this.company === '' || this.department === '' ||
+        this.cardNumber === '' || this.phoneNumber === '' || this.country === '' || this.province === '' ||
+        this.city === '' || this.district === '' || this.deaddress === '') {
+        this.showTips(this.$t('message.blank_error'), 'error')
+      } else {
+        let badtip = ''
+        let haveerror = false
+        if (!this.$refs.email.valid) {
+          haveerror = true
+          badtip += this.$t('message.email_error')
+        }
+        if (!this.$refs.cardNum.valid) {
+          haveerror = true
+          badtip += this.$t('message.cardnum_error')
+        }
+        if (!this.$refs.phoneNumber.valid) {
+          haveerror = true
+          badtip += this.$t('message.phonenum_error')
+        }
+        if (haveerror) {
+          this.showTips(badtip, 'error')
+        } else {
+          this.$dialog.loading.open(this.$t('message.registering'))
+          let user = sessionStorage.getItem('usernamer') // 注册的用户名
+          let pass = sessionStorage.getItem('passwordr') // 注册的密码
+          let gender = this.sex === 'male' ? '男' : '女'
+          let param = {
+            // 参数
+            username: user,
+            password: pass,
+            realname: this.yourName,
+            identity: this.cardNumber,
+            email: this.mailBox,
+            phone: this.phoneNumber,
+            institutionid: this.company,
+            subinstitutionid: this.department,
+            type: 1, // 普通用户
+            gender: gender,
+            age: 0, // 年龄只在上报处才报
+            status: 2, // 健康状况默认2，即健康
+            country: this.country,
+            province: this.province,
+            city: this.city,
+            district: this.district,
+            address: this.deaddress,
+            imgurl: this.whichPic.toString(),
+            lon: 0,
+            lat: 0
+          }
+          axios.post('api/blockMap/register', Qs.stringify(param)).then(
+            response => {
+              this.$dialog.loading.close()
+              // 是否注册成功
+              if (response.data.status === 'success') {
+                this.showTips(this.$t('message.registersuccess'), 'success')
+                sessionStorage.setItem('login', 'n') // 设置没有登录
+                setTimeout(this.registerNeed, 1500)
+              } else {
+                this.showTips(this.$t('message.registerfail'), 'error') // 显示注册失败框
+              }
+            }
+          ).catch(
+            error => {
+              this.$dialog.loading.close()
+              console.log(error)
+              this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+            }
+          )
+        }
       }
-      this.showTips(badtip, 'error')
-      // this.showTips('提交成功', 'success')
-      this.$router.push('/home') // 跳转到主页面
     },
     showTips (tip, type) { // 显示提示信息（tip为提示内容，type为success、error、或没有图标）
-      this.$dialog.toast({ // 显示上传成功框（上传成功）
+      this.$dialog.toast({
         mes: tip,
         timeout: 1000,
         icon: type
       })
+    },
+    registerNeed () { // 用于注册后注册成功提示显示
+      this.$router.push('/home') // 跳转到主页面
     }
   },
   mounted () { // 渲染完成后
     this.provinces = getAllProvince(this) // 获取所有省份数据
+    axios.post('api/blockMap/allsubinstitution').then(
+      response => {
+        // 动态添加选项
+        let options = response.data.data
+        let selectItem = document.getElementById('departItem')
+        for (let i = 0; i < options.length; ++i) {
+          let option = document.createElement('option')
+          option.value = options[i]
+          option.text = options[i]
+          selectItem.options.add(option)
+        }
+      }
+    ).catch(
+      error => {
+        console.log(error)
+        this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+      }
+    )
   }
 }
 </script>

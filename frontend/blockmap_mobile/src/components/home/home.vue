@@ -8,7 +8,7 @@
         <yd-flexbox> <!-- 用户名显示 -->
           <img :src="portraitUrl" alt="no resource" width="64" height="64"/>
           <!-- <yd-icon name="ucenter" color="#A9A9A9" size="1rem"></yd-icon> -->
-          <yd-flexbox-item style="font-size: 0.3rem">{{userName}}</yd-flexbox-item>
+          <yd-flexbox-item style="padding-left: 0.1rem; font-size: 0.3rem">{{userName}}</yd-flexbox-item>
         </yd-flexbox>
         <yd-cell-group> <!-- 选项卡 -->
           <yd-cell-item arrow class="select" @click.native="goToInformation">
@@ -98,8 +98,9 @@ import markImage from '../../assets/point.png' // 导入标注图
 import Line from 'ol/geom/LineString' // 导入直线
 import XYZ from 'ol/source/XYZ' // XYZ瓦片源
 import {defaults} from 'ol/control' // 默认控件设置
-import firstportrait from '../../assets/nologin_portrait.png' // 用于本地图片引入（测试，网上图片资源不需要）
-import secondportrait from '../../assets/girl_portrait.jpg' // 用于本地图片引入（测试）
+import nologinportrait from '../../assets/nologin_portrait.png' // 用于本地图片引入（测试，网上图片资源不需要）
+import girlportrait from '../../assets/girl_portrait.jpg' // 引入女生头像
+import boyportrait from '../../assets/boy_portrait.jpg' // 引入男生头像
 export default {
   name: 'home',
   data () { // 属性（数据）
@@ -119,7 +120,8 @@ export default {
       userName: this.$t('message.nouser'), // 用户名
       pathOption: 'avoid risk', // 路径查询选项
       language: 'zh', // 语言选择
-      portraitUrl: firstportrait // 头像地址
+      portraitUrl: nologinportrait, // 头像地址
+      loginOrNot: false
     }
   },
   mounted () { // 什么都加载好的时候
@@ -315,29 +317,67 @@ export default {
     //   console.log(coordinate)
     // },
     goToSummary () { // 跳转当天风险等级总结页面
-      this.$router.push('/summary')
+      if (this.loginOrNot) { // 没有登录无法使用该功能
+        this.$router.push('/summary')
+      } else {
+        this.$dialog.toast({
+          mes: this.$t('message.loginuse'),
+          timeout: 1000,
+          icon: 'error'
+        })
+      }
     },
     goToLogin () { // 跳转登录页面
       this.$router.push('/login')
     },
     goToReport () { // 跳转上报页面
-      this.$router.push('/report')
+      if (this.loginOrNot) { // 没有登录无法使用该功能
+        this.$router.push('/report')
+      } else {
+        this.$dialog.toast({
+          mes: this.$t('message.loginuse'),
+          timeout: 1000,
+          icon: 'error'
+        })
+      }
     },
     goToInformation () { // 跳转个人信息页面
-      this.$router.push('/information')
+      if (this.loginOrNot) { // 没有登录无法使用该功能
+        this.$router.push('/information')
+      } else {
+        this.$dialog.toast({
+          mes: this.$t('message.loginuse'),
+          timeout: 1000,
+          icon: 'error'
+        })
+      }
     },
     goToDID () { // 跳转数字身份验证页面
-      this.$router.push('/did')
+      if (this.loginOrNot) { // 没有登录无法使用该功能
+        this.$router.push('/did')
+      } else {
+        this.$dialog.toast({
+          mes: this.$t('message.loginuse'),
+          timeout: 1000,
+          icon: 'error'
+        })
+      }
     },
-    goToAbout () { // 跳转数字身份验证页面
+    goToAbout () { // 跳转关于我们页面
       this.$router.push('/about')
     },
     other_init () { // 其他事项初始化
       this.language = sessionStorage.getItem('locale') || 'zh' // 语言项加载（刷新后也不变）
       let login = sessionStorage.getItem('login') || 'n'
       if (login === 'y') {
-        this.userName = 'xiaoxin'
-        this.portraitUrl = secondportrait
+        this.loginOrNot = true
+        this.userName = sessionStorage.getItem('username') || this.$t('message.nouser')
+        let por = sessionStorage.getItem('portrait') || 'n'
+        if (por === '0') {
+          this.portraitUrl = boyportrait
+        } else if (por === '1') {
+          this.portraitUrl = girlportrait
+        }
       }
     }
   },
@@ -357,8 +397,7 @@ export default {
     language (newVal, oldVal) { // 监听语言变化
       sessionStorage.setItem('locale', newVal) // 保存在session存储
       this.$i18n.locale = newVal
-      let isLogin = sessionStorage.getItem('login') || 'n'
-      if (isLogin === 'n') {
+      if (!this.loginOrNot) {
         if (newVal === 'en') {
           this.userName = 'Please Sign In'
         } else {
@@ -370,7 +409,6 @@ export default {
   beforeRouteEnter (to, from, next) { // 路由钩子之进入页面前调用
     if (from.name === 'register') { // 注册信息页面进来需要刷新
       sessionStorage.setItem('refresh', 'y')
-      sessionStorage.setItem('login', 'n') // 注册信息页面进来则为无登录状态
     } else if (from.name === 'login') { // 登录页面进来需要刷新
       sessionStorage.setItem('refresh', 'y')
     }

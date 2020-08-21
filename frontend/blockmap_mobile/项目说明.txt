@@ -4,6 +4,8 @@ ol：openlayers
 vue-cesium：cesium简化封装（苹果系列产品出现问题，ipad和iphone，需要根据设备作其他动画）
 vue-i18n：国际化
 vue-ydui：手机端适配组件（有rem适配方案，最简单可自己设置实现）
+axios：官方推荐请求库
+qs：请求参数处理库
 3、结构：
 /static/Cesium：Cesium的build文件夹中的内容，配合vue-cesium使用
 /src/assets：图片

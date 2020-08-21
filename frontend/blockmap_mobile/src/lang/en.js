@@ -8,7 +8,13 @@ export const message = {
   pleaseinputpass: 'Please input your password',
   pleaseconformpass: 'Please confirm your password',
   register: 'Register',
-  loginwithoutuser: 'sign in without user',
+  loginwithoutuser: 'Sign In Without User',
+  loginsuccess: 'login succeed',
+  loginfail: 'login fail with username error or password error',
+  loginnull: 'username or password is null',
+  loginerror: 'network error',
+  registernull: 'username or password or password confirm is null',
+  passwordnotequal: 'password inconformity',
   personnalinfor: 'Personal Information', // 主页面用到的
   nouser: 'Please Sign In',
   risksummary: 'Risk Summary',
@@ -24,6 +30,7 @@ export const message = {
   avoidrisk: 'avoid risk',
   shortest: 'shortest',
   pathquery: 'path query',
+  loginuse: 'please login first before using this function',
   summarytitle: 'Today\'s summary', // 疫情风险等级总结页面用到的
   basicinformation: 'Basic Information', // 疫情上报页用到的
   realname: 'real name',
@@ -49,6 +56,11 @@ export const message = {
   sick: 'sick',
   suspected: 'suspected',
   submit: 'submit',
+  age_error: 'age error!',
+  submitting: 'submitting',
+  submitsuccess: 'submit successfully',
+  submitfail: 'submit failed',
+  description: 'description',
   selectportrait: 'select portrait', // 注册信息填写页面用到的
   department: 'department',
   country: 'nationality',
@@ -64,6 +76,12 @@ export const message = {
   cancel: 'cancel',
   sure: 'sure',
   email_error: 'e-mail error!', // 用于提示框的错误信息
+  cardnum_error: 'card number error!',
+  phonenum_error: 'phone number error!',
+  blank_error: 'please complete the information!',
+  registering: 'registering',
+  registersuccess: 'register successfully',
+  registerfail: 'register failed',
   updateby: 'Update by', // 数字身份页面用到的
   getdid: 'press to get DID code',
   version: 'Version', // 关于我们页面用到的
@@ -88,6 +106,8 @@ export const message = {
   modifypersonalinfor: 'modify personal information',
   informodify: 'Information Modify',
   modifypassword: 'modify password',
+  modifysuccess: 'modify successfully',
+  modifyfail: 'modify failed',
   guangdong: 'Guangdong', // 省份数据
   beijing: 'Beijing',
   tianjin: 'Tianjin',

@@ -10,12 +10,12 @@
             <yd-cell-item>
               <yd-icon name="ucenter-outline" slot="icon"></yd-icon>
               <span slot="left" class="input">{{$t("message.username")}}:</span>
-              <yd-input slot="right" v-model="username"></yd-input>
+              <yd-input slot="right" v-model="username" required></yd-input>
             </yd-cell-item>
             <yd-cell-item>
               <yd-icon name="shield-outline" slot="icon"></yd-icon>
               <span slot="left" class="input">{{$t("message.password")}}:</span>
-              <yd-input slot="right" type="password" v-model="password"></yd-input>
+              <yd-input slot="right" type="password" v-model="password" required></yd-input>
             </yd-cell-item>
           </yd-cell-group>
           <yd-button size="large" bgcolor="#1E90FF" color="#FFF" @click.native="toLogin" class="button">{{$t("message.signin")}}</yd-button> <!-- 登录按钮 -->
@@ -25,15 +25,15 @@
           <yd-cell-group>
             <yd-cell-item>
               <yd-icon name="ucenter-outline" slot="icon"></yd-icon>
-              <yd-input slot="right" v-model="usernamex" :placeholder="$t('message.pleaseinputuser')"></yd-input>
+              <yd-input slot="right" v-model="usernamex" :placeholder="$t('message.pleaseinputuser')" required></yd-input>
             </yd-cell-item>
             <yd-cell-item>
               <yd-icon name="shield-outline" slot="icon"></yd-icon>
-              <yd-input slot="right" type="password" v-model="passwordx" :placeholder="$t('message.pleaseinputpass')"></yd-input>
+              <yd-input slot="right" type="password" v-model="passwordx" :placeholder="$t('message.pleaseinputpass')" required></yd-input>
             </yd-cell-item>
             <yd-cell-item>
               <yd-icon name="shield" slot="icon"></yd-icon>
-              <yd-input slot="right" type="password" v-model="passwordConfirm" :placeholder="$t('message.pleaseconformpass')"></yd-input>
+              <yd-input slot="right" type="password" v-model="passwordConfirm" :placeholder="$t('message.pleaseconformpass')" required></yd-input>
             </yd-cell-item>
           </yd-cell-group>
           <yd-button size="large" bgcolor="#1E90FF" color="#FFF"  @click.native="toRegister" class="button">{{$t("message.register")}}</yd-button> <!-- 注册按钮 -->
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Qs from 'qs'
 export default {
   name: 'login',
   data () { // 数据
@@ -58,8 +60,37 @@ export default {
   },
   methods: { // 方法
     toLogin () { // 登录函数
-      sessionStorage.setItem('login', 'y')
-      this.$router.push('/home')
+      if (this.username === '' || this.password === '') { // 检查是否输入
+        this.showTips(this.$t('message.loginnull'), 'error') // 显示登录失败框
+      } else {
+        let param = {
+          username: this.username,
+          password: this.password
+        }
+        axios.post('api/blockMap/login', Qs.stringify(param)).then(
+          response => {
+            // 是否登录成功
+            if (response.data.Type === 1) { // 是普通用户
+              if (response.data.status === 'success') {
+                sessionStorage.setItem('login', 'y') // 已登陆状态
+                sessionStorage.setItem('username', response.data.username) // 保存用户名
+                sessionStorage.setItem('portrait', response.data.Imageurl) // 保存头像
+                sessionStorage.setItem('id', response.data.id) // 保存用户id（自动变为string）
+                this.$router.push('/home') // 跳转到主页面
+              } else {
+                this.showTips(this.$t('message.loginfail'), 'error') // 显示登录失败框
+              }
+            } else {
+              this.showTips(this.$t('message.loginfail'), 'error') // 显示登录失败框
+            }
+          }
+        ).catch(
+          error => {
+            console.log(error)
+            this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+          }
+        )
+      }
     },
     toNoLogin () { // 无状态登录函数
       sessionStorage.setItem('login', 'n')
@@ -70,7 +101,11 @@ export default {
       if (componentName === 'login') {
         const code = event.keyCode
         if (code === 13) {
-          this.toLogin()
+          if (this.whichTab === 0) {
+            this.toLogin()
+          } else {
+            this.toRegister()
+          }
         }
       }
     },
@@ -81,7 +116,24 @@ export default {
       document.addEventListener('keyup', this.enterKey)
     },
     toRegister () { // 填写注册信息函数
-      this.$router.push('/register')
+      if (this.usernamex === '' || this.passwordx === '' || this.passwordConfirm === '') {
+        this.showTips(this.$t('message.registernull'), 'error') // 显示失败框
+      } else {
+        if (this.passwordx !== this.passwordConfirm) { // 两次密码不一致
+          this.showTips(this.$t('message.passwordnotequal'), 'error') // 显示失败框
+        } else { // 成功
+          sessionStorage.setItem('usernamer', this.usernamex)
+          sessionStorage.setItem('passwordr', this.passwordx)
+          this.$router.push('/register')
+        }
+      }
+    },
+    showTips (tip, type) { // 显示提示信息（tip为提示内容，type为success、error、或没有图标）
+      this.$dialog.toast({
+        mes: tip,
+        timeout: 1000,
+        icon: type
+      })
     }
   },
   mounted () {
