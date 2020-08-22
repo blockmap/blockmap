@@ -97,7 +97,8 @@ export default {
       bodyHealth: 'health', // 身体健康状况
       sickDate: '', // 确诊日期
       pathPost: '', // 确诊前去过的地方
-      description: '' // 备注
+      description: '', // 备注
+      branch: null // 部门
     }
   },
   mounted () { // 页面加载好后
@@ -149,7 +150,8 @@ export default {
               confirmDate: date,
               status: sickstatus,
               description: descript,
-              state: 'pending'
+              state: 'pending',
+              branch: this.branch
             }
             axios.post('api/blockMap/post', Qs.stringify(param)).then(
               response => {
@@ -195,6 +197,7 @@ export default {
           this.district = response.data.user.district
           this.deaddress = response.data.user.address
           this.userName = response.data.user.username
+          this.branch = response.data.user.subinstitutionid
         }
       ).catch(
         error => {

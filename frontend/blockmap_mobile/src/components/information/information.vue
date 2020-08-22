@@ -327,7 +327,7 @@ export default {
       }
       axios.post('api/blockMap/query', Qs.stringify(param)).then(
         response => {
-          this.department = response.data.user.subinstitutionid.toString() // 对信息进行填充
+          this.department = response.data.user.subinstitutionid // 对信息进行填充
           this.phoneNumber = response.data.user.phone
           this.city = response.data.user.city
           this.userName = response.data.user.username
