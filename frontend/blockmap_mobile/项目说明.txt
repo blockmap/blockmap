@@ -13,6 +13,7 @@ qs：请求参数处理库
 /src/lang/zh.js：中文
 /src/lang/en.js：英文
 /src/data/province.js：获取省份信息，用于选项卡
+/src/data/institution.js：获取机构信息，用于选项卡（临时使用，代替后端）
 /src/method/device.js：改写于原始版的device.js，用于识别设备
 /src/method/flexible.js：手机适配方案
 /components：所有页面组件
@@ -28,4 +29,4 @@ qs：请求参数处理库
 /components/summary/summary.vue：风险等级总结页面
 /components/normalmap/normalmap.vue：普通地球动画页面
 4、疑难点：
-keep-alive：登录时采用页面刷新的方法重新加载地图，会出现地图空白的bug，其他页面需要设置height: 92vh; overflow: scroll;滚动
+keep-alive：登录时采用页面刷新的方法重新加载地图，会出现地图空白的bug，其他页面需要设置height: 92vh; overflow: scroll;滚动（手机还是有问题，因为输出弹出）

@@ -98,7 +98,7 @@ export default {
       sickDate: '', // 确诊日期
       pathPost: '', // 确诊前去过的地方
       description: '', // 备注
-      branch: null // 部门
+      branch: '' // 部门
     }
   },
   mounted () { // 页面加载好后
@@ -136,7 +136,7 @@ export default {
             let sickstatus = this.bodyHealth === 'health' ? 2 : (this.bodyHealth === 'sick' ? 0 : 1)
             let descript = this.description === '' ? 'null' : this.description
             let param = {
-              id: id,
+              user_id: id,
               username: this.userName,
               gender: this.sex,
               age: this.age,
@@ -197,7 +197,22 @@ export default {
           this.district = response.data.user.district
           this.deaddress = response.data.user.address
           this.userName = response.data.user.username
-          this.branch = response.data.user.subinstitutionid
+          let temp = response.data.user.subinstitutionid
+          axios.post('api/blockMap/allsubinstitution').then(
+            response => {
+              let tmp = response.data.data
+              let array = []
+              for (let i = 0; i < tmp.length; ++i) {
+                array.push(tmp[i].name)
+              }
+              this.branch = array[Number(temp) - 1]
+            }
+          ).catch(
+            error => {
+              console.log(error)
+              this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+            }
+          )
         }
       ).catch(
         error => {

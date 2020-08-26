@@ -87,9 +87,10 @@
             <span slot="left">{{$t("message.cardnumber")}}：</span> <!-- 身份证号： -->
             <yd-input slot="right" v-model="modifyData.cardNumberx" :placeholder="cardNumber" ref="cardNumber" regex="^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$"></yd-input>
           </yd-cell-item>
-          <yd-cell-item>
+          <yd-cell-item arrow>
             <span slot="left">{{$t("message.company")}}：</span> <!-- 所属公司 -->
-            <yd-input slot="right" v-model="modifyData.companyx" required></yd-input>
+            <select slot="right" v-model="modifyData.companyx" class="select" id="companyItem">
+            </select>
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">{{$t("message.department")}}：</span> <!-- 所属部门 -->
@@ -135,10 +136,13 @@ import axios from 'axios' // 导入ajax库
 import Qs from 'qs' // 导入参数转化库
 import girlportrait from '../../assets/girl_portrait.jpg' // 引入女生头像
 import boyportrait from '../../assets/boy_portrait.jpg' // 引入男生头像
+import getInstitution from '../../data/institution'
 export default {
   name: 'information',
   data () { // 数据
     return {
+      institution: null, // 所有机构
+      subinstitution: [], // 所有部门
       cardNumberTrue: '', // 真实的身份证号
       password: '', // 保存密码
       userName: '', // 用户名
@@ -164,6 +168,8 @@ export default {
       age: null, // 保存年龄
       lat: null,
       lon: null,
+      institutionid: null,
+      subinstitutionid: null,
       modifyData: { // 需要用于监听
         trueNamex: '', // 姓名（修改）
         sexx: '', // 性别（修改）
@@ -249,17 +255,19 @@ export default {
                   this.cardNumberTrue = this.modifyData.cardNumberx
                   this.cardNumber = this.cardNumber = this.cardNumberTrue.substring(0, 5) + '**********' + this.cardNumberTrue.slice(-3)
                 }
-                this.department = this.modifyData.departmentx // 对信息进行反填充
+                this.subinstitutionid = this.modifyData.departmentx // 对信息进行反填充
                 this.phoneNumber = this.modifyData.phoneNumberx
                 this.city = this.modifyData.cityx
                 this.trueName = this.modifyData.trueNamex
                 this.sex = sex
-                this.company = this.modifyData.companyx
+                this.institutionid = this.modifyData.companyx
                 this.email = this.modifyData.emailx
                 this.country = this.modifyData.countryx
                 this.province = this.modifyData.provincex
                 this.district = this.modifyData.districtx
                 this.deaddress = this.modifyData.deaddressx
+                this.company = this.institution[Number(this.institutionid) - 1]
+                this.department = this.subinstitution[Number(this.subinstitutionid) - 1]
                 this.showModify = false // 收起弹窗
                 if (!this.submitButtonDis) { // 不可以使用按钮
                   this.submitButtonDis = true
@@ -299,12 +307,12 @@ export default {
     },
     toModify () { // 显示修改信息页面
       let sex = this.sex === '男' ? 'male' : 'female'
-      this.modifyData.departmentx = this.department // 对信息进行填充
+      this.modifyData.departmentx = this.subinstitutionid // 对信息进行填充
       this.modifyData.phoneNumberx = this.phoneNumber
       this.modifyData.cityx = this.city
       this.modifyData.trueNamex = this.trueName
       this.modifyData.sexx = sex
-      this.modifyData.companyx = this.company
+      this.modifyData.companyx = this.institutionid
       this.modifyData.emailx = this.email
       this.modifyData.cardNumberx = ''
       this.modifyData.countryx = this.country
@@ -327,13 +335,13 @@ export default {
       }
       axios.post('api/blockMap/query', Qs.stringify(param)).then(
         response => {
-          this.department = response.data.user.subinstitutionid // 对信息进行填充
-          this.phoneNumber = response.data.user.phone
+          this.phoneNumber = response.data.user.phone // 对信息进行填充
           this.city = response.data.user.city
           this.userName = response.data.user.username
           this.trueName = response.data.user.realname
           this.sex = response.data.user.gender
-          this.company = response.data.user.institutionid
+          this.subinstitutionid = response.data.user.subinstitutionid
+          this.institutionid = response.data.user.institutionid
           this.email = response.data.user.email
           this.password = response.data.user.password
           this.cardNumberTrue = response.data.user.identity
@@ -346,22 +354,35 @@ export default {
           this.age = response.data.user.age
           this.lon = response.data.user.lon
           this.lat = response.data.user.lat
-        }
-      ).catch(
-        error => {
-          console.log(error)
-          this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
-        }
-      )
-      axios.post('api/blockMap/allsubinstitution').then(
-        response => {
-          // 动态添加选项
-          let options = response.data.data
-          let selectItem = document.getElementById('departItem')
-          for (let i = 0; i < options.length; ++i) {
+          this.company = this.institution[Number(this.institutionid) - 1]
+          axios.post('api/blockMap/allsubinstitution').then(
+            response => {
+              let tmp = response.data.data
+              for (let i = 0; i < tmp.length; ++i) {
+                this.subinstitution.push(tmp[i].name)
+              }
+              this.department = this.subinstitution[Number(this.subinstitutionid) - 1] // 这里要注意必须把请求放这里，因为请求返回是异步的，需要先知道subinstitutionid
+              // 动态添加选项（部门）
+              let selectItem = document.getElementById('departItem')
+              for (let i = 0; i < this.subinstitution.length; ++i) {
+                let option = document.createElement('option')
+                option.value = (i + 1).toString()
+                option.text = this.subinstitution[i]
+                selectItem.options.add(option)
+              }
+            }
+          ).catch(
+            error => {
+              console.log(error)
+              this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+            }
+          )
+          // 动态添加选项（公司）
+          let selectItem = document.getElementById('companyItem')
+          for (let i = 0; i < this.institution.length; ++i) {
             let option = document.createElement('option')
-            option.value = options[i]
-            option.text = options[i]
+            option.value = (i + 1).toString()
+            option.text = this.institution[i]
             selectItem.options.add(option)
           }
         }
@@ -388,6 +409,7 @@ export default {
   },
   mounted () { // 渲染完成后
     this.provinces = getAllProvince(this) // 获取所有省份数据
+    this.institution = getInstitution()
     this.loadInformation() // 加载页面信息
   }
 }

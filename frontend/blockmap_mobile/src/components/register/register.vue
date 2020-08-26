@@ -54,9 +54,10 @@
             <span slot="left">{{$t("message.country")}}：</span> <!-- 国籍： -->
             <yd-input slot="right" required v-model="country"></yd-input>
           </yd-cell-item>
-          <yd-cell-item>
+          <yd-cell-item arrow>
             <span slot="left">{{$t("message.company")}}：</span> <!-- 所属公司 -->
-            <yd-input slot="right" required v-model="company"></yd-input>
+            <select slot="right" v-model="company" class="select" id="companyItem">
+            </select>
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">{{$t("message.department")}}：</span> <!-- 所属部门 -->
@@ -92,6 +93,7 @@
 import getAllProvince from '../../data/province' // 导入获取省份数据函数
 import axios from 'axios' // 导入ajax库
 import Qs from 'qs' // 导入qs库用于编码
+import getInstitution from '../../data/institution'
 export default {
   name: 'register',
   data () { // 数据
@@ -110,7 +112,9 @@ export default {
       city: '', // 市
       district: '', // 区
       deaddress: '', // 详细地址
-      provinces: null // 所有省份数据
+      provinces: null, // 所有省份数
+      institution: null,
+      subinstitution: []
     }
   },
   methods: { // 方法
@@ -218,28 +222,43 @@ export default {
     },
     registerNeed () { // 用于注册后注册成功提示显示
       this.$router.push('/home') // 跳转到主页面
+    },
+    loadInformation () {
+      // 动态添加选项（公司）
+      let selectItem = document.getElementById('companyItem')
+      for (let i = 0; i < this.institution.length; ++i) {
+        let option = document.createElement('option')
+        option.value = (i + 1).toString()
+        option.text = this.institution[i]
+        selectItem.options.add(option)
+      }
+      axios.post('api/blockMap/allsubinstitution').then(
+        response => {
+          let tmp = response.data.data
+          for (let i = 0; i < tmp.length; ++i) {
+            this.subinstitution.push(tmp[i].name)
+          }
+          // 动态添加选项（部门）
+          let selectItem = document.getElementById('departItem')
+          for (let i = 0; i < this.subinstitution.length; ++i) {
+            let option = document.createElement('option')
+            option.value = (i + 1).toString()
+            option.text = this.subinstitution[i]
+            selectItem.options.add(option)
+          }
+        }
+      ).catch(
+        error => {
+          console.log(error)
+          this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
+        }
+      )
     }
   },
   mounted () { // 渲染完成后
     this.provinces = getAllProvince(this) // 获取所有省份数据
-    axios.post('api/blockMap/allsubinstitution').then(
-      response => {
-        // 动态添加选项
-        let options = response.data.data
-        let selectItem = document.getElementById('departItem')
-        for (let i = 0; i < options.length; ++i) {
-          let option = document.createElement('option')
-          option.value = options[i]
-          option.text = options[i]
-          selectItem.options.add(option)
-        }
-      }
-    ).catch(
-      error => {
-        console.log(error)
-        this.showTips(this.$t('message.networkerror'), 'error') // 显示失败框
-      }
-    )
+    this.institution = getInstitution()
+    this.loadInformation()
   }
 }
 </script>
