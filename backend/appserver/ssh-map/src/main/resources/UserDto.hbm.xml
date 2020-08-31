@@ -10,20 +10,23 @@
 		</id>
 		<property name="username"></property>
 		<property name="password"></property>
+		<property name="realname"></property>
+		<property name="identity"></property>
 		<property name="email"></property>
 		<property name="phone"></property>
-		<property name="institution"></property>
+		<property name="institutionid"></property>
+		<property name="subinstitutionid"></property>
 		<property name="type"></property>
 		<property name="gender"></property>
 		<property name="age"></property>
 		<property name="status"></property>
+		<property name="country"></property>
 		<property name="province"></property>
 		<property name="city"></property>
 		<property name="district"></property>
-		<property name="street"></property>
-		<property name="community"></property>
-		<property name="unit"></property>
+		<property name="address"></property>
 		<property name="lon"></property>
-		<property name="lat"></property>	
+		<property name="lat"></property>
+		<property name="imgurl"></property>
 	</class>
 </hibernate-mapping>

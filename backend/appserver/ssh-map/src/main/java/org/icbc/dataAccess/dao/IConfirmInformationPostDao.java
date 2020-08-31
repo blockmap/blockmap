@@ -1,5 +1,7 @@
 package org.icbc.dataAccess.dao;
 
+import java.util.Map;
+
 import org.icbc.dataAccess.dto.ConfirmInformationPostDto;
 
 //对确诊信息表进行CRUD
@@ -9,9 +11,13 @@ public interface IConfirmInformationPostDao {
 		//删除确诊信息
 		void delete(ConfirmInformationPostDto confirm);
 		//保存确诊信息
-		void save(ConfirmInformationPostDto confirm);
+		void save(ConfirmInformationPostDto confirm,long id,int status);
 		//更新确诊信息
 		void update(ConfirmInformationPostDto confirm);
 		//新增或更新确诊信息
 		void saveOrUpdate(ConfirmInformationPostDto confirm);
+		//更改申报状态
+		void updatestate(long id);
+		//分页展示疫情上报情况
+		Map<String,Object> getComfirmPostwithPage(int page,int limit);
 }

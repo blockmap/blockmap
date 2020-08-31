@@ -4,12 +4,12 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory"/>
-    <!--一旦你用了这个，那么你的Action也必须在Spring中配置，class用Spring中的直，否则Action拿不到依赖的类-->
+    
     <constant name="struts.devMode" value="false"/>
     
     <package name="exception" extends="struts-default">
         <global-results>
-            <result name="Exception">PAGE/404.jsp</result>
+            <result name="Exception">404.jsp</result>
         </global-results>
         <global-exception-mappings>
             <exception-mapping exception="java.lang.Exception" result="Exception"/>
@@ -18,48 +18,79 @@
     
     <package name="user" extends="exception">
       <action name="register" class="RegisterNewUserAction" >
-          <result  name="success">index.jsp</result>
-          <result name="fail">404.jsp</result>
+      </action>
+      <action name="login" class="LoginUserAction" >
       </action>
       <action name="query" class="QueryUserAction">
-      	  <result name="success">index.jsp</result>
-      	  <result name="fail">404.jsp</result>
       </action>
       <action name="delete" class="DeleteUserAction">
-      	  <result name="success">index.jsp</result>
       </action>
       <action name="update" class="UpdateUserAction">
-      	  <result name="success">index.jsp</result>
-      	  <result name="fail">404.jsp</result>
       </action>
       <action name="updatestatus" class="UpdateUserStatusAction">
-      	  <result name="success">index.jsp</result>
+      	  <result name="success">success.jsp</result>
       	  <result name="fail">404.jsp</result>
+      </action>
+      <action name="regionalinfection_suspected" class="RegionalInfection_SuspectedAction">
+      </action>
+      <action name="getuserwithpage" class="GetUserwithPageAction">
+      </action>
+      <action name="ratio_returnedworker" class="Ratio_ReturnedWorkerAction">
+      </action>
+      <action name="ratio_fever" class="Ratio_FeverAction">
       </action>
   </package>
 	
 	<package name="confirm" extends="exception">
 		<action name="post" class="AddConfirmAction">
-			<result name="success">index.jsp</result>
 		</action>	
+		<action name="updatestate" class="UpdateStateAction">
+		</action>
+		<action name="getpostwithpage" class="GetPostwithPageAction">
+		</action>
+	</package>
+	
+	<package name="report" extends="exception">
+		<action name="report" class="AddReportAction">
+		</action>	
+		<action name="deletereport" class="DeleteReportAction">
+		</action>
+		<action name="getreportwithpage" class="GetReportwithPageAction">
+		</action>
 	</package>
 
 	<package name="subinstitution" extends="exception">
 		<action name="addsubinstitution" class="AddSubinstitutionAction">
-			<result name="success">index.jsp</result>
 		</action>	
 		<action name="deletesubinstitution" class="DeleteSubinstitutionAction">
-      	  <result name="success">index.jsp</result>
-      	  <result name="fail">404.jsp</result>
       </action>
       <action name="updaterisklevel" class="UpdateRiskLevelAction">
-      	  <result name="success">index.jsp</result>
+      	  <result name="success">success.jsp</result>
       	  <result name="fail">404.jsp</result>
+      </action>
+      <action name="allsubinstitution" class="AllSubinstitutionAcion">
       </action>
       <action name="findworksubinstitution" class="FindWorkSubinstitutionAction">
-      	  <result name="success">index.jsp</result>
+      </action>
+      <action name="rank5subinstitution" class="Rank5SubinstitutionAction">
+      </action>
+      <action name="returnableworker" class="ReturnableWorkerAction">
+		</action>
+		<action name="regionalpedestrianflow" class="RegionalPedestrianflowAction">
+		</action>
+		<action name="getsubwithpage" class="GetSubwithPageAction">
+		</action>
+	</package>
+	<package name="institution" extends="exception">
+		<action name="addinstitution" class="AddInstitutionAction">
+			<result name="success">success.jsp</result>
+		</action>
+		<action name="updateinstitution" class="UpdateInstitutionAction">
+      	  <result name="success">success.jsp</result>
       	  <result name="fail">404.jsp</result>
       </action>
+		<action name="returnablecompany" class="ReturnableCompanyAction">
+		</action>
 	</package>
 
 

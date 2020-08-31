@@ -1,28 +1,34 @@
 package org.icbc.dataAccess.dto;
+
+
 //记录用户个人信息
 public class UserDto {
-	private int id;
-    private String username;
-    private String password;
+	private Long id;
+    private String username;//非空
+    private String password;//非空
+    private String realname; //真实姓名//非空
+    private String identity; //身份证号//非空
     private String email;
     private String phone;   //联系方式
-    private int institution;       //用户所属机构，外键
-    private int type;    //0管理员，1普通用户
+    private String institutionid;       //用户所属总结构 非空
+    private String subinstitutionid;       //用户所属子机构，外键 非空
+    private int type;    //0管理员，1普通用户 非空
     private String gender;  //0女，1男
     private int age;
-    private int status;   //0确诊，1疑似，2健康
+    private int status;   //0确诊，1疑似，2健康 非空
+    private String country;
     private String province;
     private String city;
-    private String district; //区
-    private String street;  //街道
-    private String community;  //区
-    private String unit;  //楼栋号
+    private String district; //区 非空
+    private String address;
     private float lon;   //家庭地址经度
     private float lat;  //家庭地址纬度
-	public int getId() {
+    private String imgurl;   //图像路径 非空
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -49,11 +55,13 @@ public class UserDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getInstitution() {
-		return institution;
+	
+	
+	public String getSubinstitutionid() {
+		return subinstitutionid;
 	}
-	public void setInstitution(int institution) {
-		this.institution = institution;
+	public void setSubinstitutionid(String subinstitutionid) {
+		this.subinstitutionid = subinstitutionid;
 	}
 	public int getType() {
 		return type;
@@ -97,23 +105,12 @@ public class UserDto {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getStreet() {
-		return street;
+	
+	public String getAddress() {
+		return address;
 	}
-	public void setStreet(String street) {
-		this.street = street;
-	}
-	public String getCommunity() {
-		return community;
-	}
-	public void setCommunity(String community) {
-		this.community = community;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public float getLon() {
 		return lon;
@@ -127,6 +124,37 @@ public class UserDto {
 	public void setLat(float lat) {
 		this.lat = lat;
 	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	public String getIdentity() {
+		return identity;
+	}
+	public void setIdentity(String identity) {
+		this.identity = identity;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getImgurl() {
+		return imgurl;
+	}
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
+	public String getInstitutionid() {
+		return institutionid;
+	}
+	public void setInstitutionid(String institutionid) {
+		this.institutionid = institutionid;
+	}
+	
 	
     
 }

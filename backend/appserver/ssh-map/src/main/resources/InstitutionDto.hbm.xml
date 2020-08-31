@@ -5,9 +5,11 @@
 
 <hibernate-mapping>
 	<class name="org.icbc.dataAccess.dto.InstitutionDto" table="institution">
-		<id name="id" column="id">
+		<id name="id" column="ins_id">
 			<generator class="native"></generator>	
 		</id>
 		<property name="institutionname"></property>	
+		<property name="profession"></property>
+		<property name="isreturnable"></property>
 	</class>
 </hibernate-mapping>

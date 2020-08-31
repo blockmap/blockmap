@@ -1,53 +1,74 @@
 package org.icbc.actions.userRequestActions;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.struts2.ServletActionContext;
 import org.icbc.bussinessService.IUserManageService;
 import org.icbc.dataAccess.dto.UserDto;
+import org.icbc.tool.ResultUtils;
 
 public class RegisterNewUserAction {
 	private String username;
     private String password;
+    private String realname; 
+    private String identity;
     private String email;
-    private String phone;   
-    private int institution;       
+    private String phone;
+    private String institutionid;       
+    private String subinstitutionid;       
     private int type;    
     private String gender;  
     private int age;
     private int status;   
+    private String country;
     private String province;
     private String city;
     private String district; 
-    private String street;  
-    private String community;  
-    private String unit;  
+    private String address; 
     private float lon;   
-    private float lat;
+    private float lat;  
+    private String imgurl;   
 	private IUserManageService userManageService;
-	public String execute() {
-		if(username==null || password==null) {
-			return "fail";
+	public String execute() throws IOException {
+		Map<String, String> map = new HashMap<String, String>();
+		try {		
+		if(username.trim()=="" || password.trim()=="") {
+			map.put("status", "fail");
+			ResultUtils.toJson(ServletActionContext.getResponse(), map);
+			return null;			
 		}else {
 			UserDto user = new UserDto();
 			user.setUsername(username);
 			user.setPassword(password);
+			user.setRealname(realname);
+			user.setIdentity(identity);
 			user.setEmail(email);
 			user.setPhone(phone);
-			user.setInstitution(institution);
+			user.setInstitutionid(institutionid);
+			user.setSubinstitutionid(subinstitutionid);
 			user.setType(type);
 			user.setGender(gender);
 			user.setAge(age);
 			user.setStatus(status);
+			user.setCountry(country);
 			user.setProvince(province);
 			user.setCity(city);
 			user.setDistrict(district);
-			user.setStreet(street);
-			user.setCommunity(community);
-			user.setUnit(unit);
+			user.setAddress(address);
 			user.setLon(lon);
 			user.setLat(lat);
+			user.setImgurl(imgurl);
 			userManageService.addNewUser(user);
-			return "suceess";
+			map.put("status", "success");
+		}
+		}catch(Exception e) {
+			map.put("status", "fail");
+		}			
+		ResultUtils.toJson(ServletActionContext.getResponse(), map);
+		return null;
 		}		
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -59,6 +80,18 @@ public class RegisterNewUserAction {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	public String getIdentity() {
+		return identity;
+	}
+	public void setIdentity(String identity) {
+		this.identity = identity;
 	}
 	public String getEmail() {
 		return email;
@@ -72,11 +105,18 @@ public class RegisterNewUserAction {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getInstitution() {
-		return institution;
+	public String getInstitutionid() {
+		return institutionid;
 	}
-	public void setInstitution(int institution) {
-		this.institution = institution;
+	public void setInstitutionid(String institutionid) {
+		this.institutionid = institutionid;
+	}
+	
+	public String getSubinstitutionid() {
+		return subinstitutionid;
+	}
+	public void setSubinstitutionid(String subinstitutionid) {
+		this.subinstitutionid = subinstitutionid;
 	}
 	public int getType() {
 		return type;
@@ -102,6 +142,12 @@ public class RegisterNewUserAction {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
 	public String getProvince() {
 		return province;
 	}
@@ -120,23 +166,12 @@ public class RegisterNewUserAction {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getStreet() {
-		return street;
+	
+	public String getAddress() {
+		return address;
 	}
-	public void setStreet(String street) {
-		this.street = street;
-	}
-	public String getCommunity() {
-		return community;
-	}
-	public void setCommunity(String community) {
-		this.community = community;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public float getLon() {
 		return lon;
@@ -150,11 +185,18 @@ public class RegisterNewUserAction {
 	public void setLat(float lat) {
 		this.lat = lat;
 	}
+	public String getImgurl() {
+		return imgurl;
+	}
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
 	public IUserManageService getUserManageService() {
 		return userManageService;
 	}
 	public void setUserManageService(IUserManageService userManageService) {
 		this.userManageService = userManageService;
 	}
+	
 	
 }

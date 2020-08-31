@@ -6,15 +6,19 @@
      <!-- put Dao into Service -->
      <bean id="UserManageServiceImpl" class="org.icbc.bussinessService.UserManageServiceImpl">
      		<property name="userDao" ref="UserDao"></property>  
-     </bean>  
+     </bean>
      <bean id="ConfirmInformationServiceImpl" class="org.icbc.bussinessService.ConfirmInformationServiceImpl">
      		<property name="confirmDao" ref="ConfirmInformationPostDao"></property>  
      </bean>
      <bean id="SubinstitutionServiceImpl" class="org.icbc.bussinessService.SubinstitutionServiceImpl">
      		<property name="subinstitutionDao" ref="SubinstitutionDao"></property>  
      </bean>
-       
-       
+      <bean id="InstitutionServiceImpl" class="org.icbc.bussinessService.InstitutionServiceImpl">
+     		<property name="institutionDao" ref="InstitutionDao"></property>  
+     </bean>
+     <bean id="ConfirmReportServiceImpl" class="org.icbc.bussinessService.ConfirmReportServiceImpl">
+     		<property name="reportdao" ref="ConfirmReportDao"></property>  
+     </bean>
        
        
        

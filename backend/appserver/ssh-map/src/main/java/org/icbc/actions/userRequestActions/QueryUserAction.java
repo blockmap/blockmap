@@ -1,18 +1,28 @@
 package org.icbc.actions.userRequestActions;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.struts2.ServletActionContext;
 import org.icbc.bussinessService.IUserManageService;
 import org.icbc.dataAccess.dto.UserDto;
+import org.icbc.tool.ResultUtils;
 
 public class QueryUserAction {
 	private long id;
 	private IUserManageService userManageService;
-	public String execute() {
+	public String execute() throws IOException {
+		Map<String, Object> map = new HashMap<String, Object>();
 		UserDto user = userManageService.getUser(id);
-		if(user !=null) {
-			return "success";
+		if(user.getId()==-1) {
+			map.put("status", "No such user!");
 		}else {
-			return "fail";
-		}		
+			map.put("user", user);
+			map.put("status", "success");
+		}
+		ResultUtils.toJson(ServletActionContext.getResponse(), map);
+    	return null;
 	}
 	public long getId() {
 		return id;

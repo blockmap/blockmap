@@ -1,20 +1,22 @@
 package org.icbc.actions.subinstitutionRequestActions;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.struts2.ServletActionContext;
 import org.icbc.bussinessService.ISubinstitutionService;
-import org.icbc.dataAccess.dto.SubinstitutionDto;
+import org.icbc.tool.ResultUtils;
 
 public class DeleteSubinstitutionAction {
 	private long id;
 	private ISubinstitutionService subinstitutionService;
-	public String execute() {
-		SubinstitutionDto subinstitution = subinstitutionService.getSubinstitution(id);
-		if(subinstitution == null) {
-			return "fail";
-		}
-		else {
-			subinstitutionService.deleteSubinstitution(subinstitution);
-			return "success";
-		}
+	public String execute() throws IOException {
+		Map<String, String> map = new HashMap<String, String>();
+		subinstitutionService.deleteSubinstitution(id);
+		map.put("status", "success");
+		ResultUtils.toJson(ServletActionContext.getResponse(), map);
+    	return null;
 	}
 	public long getId() {
 		return id;

@@ -1,22 +1,34 @@
 package org.icbc.actions.subinstitutionRequestActions;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.icbc.bussinessService.ISubinstitutionService;
 import org.icbc.dataAccess.dto.SubinstitutionDto;
+import org.icbc.tool.ResultUtils;
 
 public class FindWorkSubinstitutionAction {
 	private int page;
 	private int limit;
 	private List<SubinstitutionDto> subinstitutions;
 	private ISubinstitutionService subinstitutionService;
-	public String execute() {
-		subinstitutions = subinstitutionService.selectWorkSubinstitution(page, limit);
+	public String execute() throws IOException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> mapsta = new HashMap<String, String>();
+		subinstitutions = subinstitutionService.selectWorkSubinstitution(page, limit);	
+		System.out.println(subinstitutions.size());
 		if(subinstitutions == null || subinstitutions.size() ==0) {
-			return "fail";
+			mapsta.put("status","fail");
+			ResultUtils.toJson(ServletActionContext.getResponse(), mapsta);
+			return null;
 		}
 		else {
-			return "success";
+			map.put("subinstitution", subinstitutions);
+			ResultUtils.toJson(ServletActionContext.getResponse(), map);
+			return null;
 		}
 	}
 	public int getPage() {

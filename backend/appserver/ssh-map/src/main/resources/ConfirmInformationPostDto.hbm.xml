@@ -5,10 +5,11 @@
 
 <hibernate-mapping>
 	<class name="org.icbc.dataAccess.dto.ConfirmInformationPostDto" table="confirmInformationPost">
-		<id name="id" column="id">
+		<id name="id" column="comfirm_id">
 			<generator class="native"></generator>	
 		</id>
 		<property name="username"></property>
+		<property name="branch"></property>
 		<property name="gender"></property>
 		<property name="age"></property>
 		<property name="email"></property>
@@ -16,10 +17,11 @@
 		<property name="province"></property>
 		<property name="city"></property>
 		<property name="district"></property>
-		<property name="street"></property>
-		<property name="community"></property>
-		<property name="unit"></property>
+		<property name="detailAddress"></property>
 		<property name="confirmDate"></property>
-		<property name="pathPost"></property>		
+		<property name="pathPost"></property>	
+		<property name="description"></property>
+		<property name="state"></property>
+		<property name="user_id"></property>	
 	</class>
 </hibernate-mapping>

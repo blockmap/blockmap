@@ -17,7 +17,28 @@
 		<bean id="QueryUserAction" class="org.icbc.actions.userRequestActions.QueryUserAction">
 			<property name="userManageService" ref="UserManageServiceImpl"></property>
 		</bean>
+		<bean id="LoginUserAction" class="org.icbc.actions.userRequestActions.LoginUserAction">
+			<property name="userManageService" ref="UserManageServiceImpl"></property>
+		</bean>
+		<bean id="RegionalInfection_SuspectedAction" class="org.icbc.actions.userRequestActions.RegionalInfection_SuspectedAction">
+			<property name="userManageService" ref="UserManageServiceImpl"></property>
+		</bean>
+		<bean id="GetUserwithPageAction" class="org.icbc.actions.userRequestActions.GetUserwithPageAction">
+			<property name="userManageService" ref="UserManageServiceImpl"></property>
+		</bean>
+		<bean id="Ratio_ReturnedWorkerAction" class="org.icbc.actions.userRequestActions.Ratio_ReturnedWorkerAction">
+			<property name="userManageService" ref="UserManageServiceImpl"></property>
+		</bean>
+		<bean id="Ratio_FeverAction" class="org.icbc.actions.userRequestActions.Ratio_FeverAction">
+			<property name="userManageService" ref="UserManageServiceImpl"></property>
+		</bean>
 		<bean id="AddConfirmAction" class="org.icbc.actions.confirmRequestActions.AddConfirmAction">
+			<property name="confirmService" ref="ConfirmInformationServiceImpl"></property>
+		</bean>
+		<bean id="UpdateStateAction" class="org.icbc.actions.confirmRequestActions.UpdateStateAction">
+			<property name="confirmService" ref="ConfirmInformationServiceImpl"></property>
+		</bean>
+		<bean id="GetPostwithPageAction" class="org.icbc.actions.confirmRequestActions.GetPostwithPageAction">
 			<property name="confirmService" ref="ConfirmInformationServiceImpl"></property>
 		</bean>
 		<bean id="AddSubinstitutionAction" class="org.icbc.actions.subinstitutionRequestActions.AddSubinstitutionAction">
@@ -26,10 +47,43 @@
 		<bean id="DeleteSubinstitutionAction" class="org.icbc.actions.subinstitutionRequestActions.DeleteSubinstitutionAction">
 			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
 		</bean>
-		<bean id="UpdateRiskLevelAction" class="org.icbc.actions.subinstitutionRequestActions.UpdateRiskLevelAction">
+		<!-- <bean id="UpdateRiskLevelAction" class="org.icbc.actions.subinstitutionRequestActions.UpdateRiskLevelAction">
 			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
 		</bean>
 		<bean id="FindWorkSubinstitutionAction" class="org.icbc.actions.subinstitutionRequestActions.FindWorkSubinstitutionAction">
 			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>-->
+		<bean id="AllSubinstitutionAcion" class="org.icbc.actions.subinstitutionRequestActions.AllSubinstitutionAcion">
+			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>
+		<bean id="Rank5SubinstitutionAction" class="org.icbc.actions.subinstitutionRequestActions.Rank5SubinstitutionAction">
+			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>
+		<bean id="ReturnableWorkerAction" class="org.icbc.actions.subinstitutionRequestActions.ReturnableWorkerAction">
+			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>
+		<bean id="RegionalPedestrianflowAction" class="org.icbc.actions.subinstitutionRequestActions.RegionalPedestrianflowAction">
+			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>
+		<bean id="GetSubwithPageAction" class="org.icbc.actions.subinstitutionRequestActions.GetSubwithPageAction">
+			<property name="subinstitutionService" ref="SubinstitutionServiceImpl"></property>
+		</bean>
+		<!-- <bean id="AddInstitutionAction" class="org.icbc.actions.institutionRequestActions.AddInstitutionAction">
+			<property name="institutionService" ref="InstitutionServiceImpl"></property>
+		</bean>
+		<bean id="UpdateInstitutionAction" class="org.icbc.actions.institutionRequestActions.UpdateInstitutionAction">
+			<property name="institutionService" ref="InstitutionServiceImpl"></property>
+		</bean>-->
+		<bean id="ReturnableCompanyAction" class="org.icbc.actions.institutionRequestActions.ReturnableCompanyAction">
+			<property name="institutionService" ref="InstitutionServiceImpl"></property>
+		</bean>
+		<bean id="AddReportAction" class="org.icbc.actions.confirmreportRequestActions.AddReportAction">
+			<property name="reportService" ref="ConfirmReportServiceImpl"></property>
+		</bean>
+		<bean id="DeleteReportAction" class="org.icbc.actions.confirmreportRequestActions.DeleteReportAction">
+			<property name="reportService" ref="ConfirmReportServiceImpl"></property>
+		</bean>
+		<bean id="GetReportwithPageAction" class="org.icbc.actions.confirmreportRequestActions.GetReportwithPageAction">
+			<property name="reportService" ref="ConfirmReportServiceImpl"></property>
 		</bean>
 </beans>       

@@ -1,10 +1,11 @@
 package org.icbc.dataAccess.dto;
 
 public class SubinstitutionDto {
-	private int id;
+	private Long id;
     private String subinstitutionname;
-    private int institutionId;  //所属机构
+    private String institutionId;  //所属机构
     private String profession;   //所属行业
+    private String tel;
     private String province;
     private String city;
     private String district; //区
@@ -12,11 +13,12 @@ public class SubinstitutionDto {
     private String detailAddress;  //详细地址
     private float lon;//经度
     private float lat;//纬度
-    private int riskLevel;  //风险等级
-	public int getId() {
+    private double riskLevel;  //风险等级
+    private Long passengerFlow;//客流量
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getSubinstitutionname() {
@@ -25,10 +27,11 @@ public class SubinstitutionDto {
 	public void setSubinstitutionname(String subinstitutionname) {
 		this.subinstitutionname = subinstitutionname;
 	}
-	public int getInstitutionId() {
+	
+	public String getInstitutionId() {
 		return institutionId;
 	}
-	public void setInstitutionId(int institutionId) {
+	public void setInstitutionId(String institutionId) {
 		this.institutionId = institutionId;
 	}
 	public String getProfession() {
@@ -36,6 +39,13 @@ public class SubinstitutionDto {
 	}
 	public void setProfession(String profession) {
 		this.profession = profession;
+	}
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 	public String getProvince() {
 		return province;
@@ -79,11 +89,17 @@ public class SubinstitutionDto {
 	public void setLat(float lat) {
 		this.lat = lat;
 	}
-	public int getRiskLevel() {
+	public double getRiskLevel() {
 		return riskLevel;
 	}
-	public void setRiskLevel(int riskLevel) {
+	public void setRiskLevel(double riskLevel) {
 		this.riskLevel = riskLevel;
+	}
+	public Long getPassengerFlow() {
+		return passengerFlow;
+	}
+	public void setPassengerFlow(Long passengerFlow) {
+		this.passengerFlow = passengerFlow;
 	}
     
     

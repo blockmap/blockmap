@@ -1,10 +1,10 @@
 package org.icbc.dataAccess.dto;
 
-import java.util.Date;
 //确诊信息上报表
 public class ConfirmInformationPostDto {
-	private int id;
+	private Long id;
     private String username;
+    private String branch;
     private String gender;
     private int age;
     private String email;
@@ -12,15 +12,17 @@ public class ConfirmInformationPostDto {
     private String province;
     private String city;
     private String district; //区
-    private String street;  //街道
-    private String community;  //区
-    private String unit;  //楼栋号
-    private Date confirmDate;
+    private String detailAddress; //详细地址
+    private String confirmDate;
     private String pathPost;
-	public int getId() {
+    private String description;//备注
+    private String state;//申报状态
+    private long user_id;//用户编号
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -28,6 +30,13 @@ public class ConfirmInformationPostDto {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getBranch() {
+		return branch;
+	}
+	public void setBranch(String branch) {
+		this.branch = branch;
 	}
 	public String getGender() {
 		return gender;
@@ -71,28 +80,16 @@ public class ConfirmInformationPostDto {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getStreet() {
-		return street;
+	public String getDetailAddress() {
+		return detailAddress;
 	}
-	public void setStreet(String street) {
-		this.street = street;
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
 	}
-	public String getCommunity() {
-		return community;
-	}
-	public void setCommunity(String community) {
-		this.community = community;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-	public Date getConfirmDate() {
+	public String getConfirmDate() {
 		return confirmDate;
 	}
-	public void setConfirmDate(Date confirmDate) {
+	public void setConfirmDate(String confirmDate) {
 		this.confirmDate = confirmDate;
 	}
 	public String getPathPost() {
@@ -100,6 +97,24 @@ public class ConfirmInformationPostDto {
 	}
 	public void setPathPost(String pathPost) {
 		this.pathPost = pathPost;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public long getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(long user_id) {
+		this.user_id = user_id;
 	}
     
     

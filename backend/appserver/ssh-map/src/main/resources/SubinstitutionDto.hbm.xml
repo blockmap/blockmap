@@ -11,6 +11,7 @@
 		<property name="subinstitutionname"></property>
 		<property name="institutionId"></property>
 		<property name="profession"></property>
+		<property name="tel"></property>
 		<property name="province"></property>
 		<property name="city"></property>
 		<property name="district"></property>
@@ -19,5 +20,6 @@
 		<property name="lon"></property>
 		<property name="lat"></property>
 		<property name="riskLevel"></property>
+		<property name="passengerFlow"></property>
 	</class>
 </hibernate-mapping>
